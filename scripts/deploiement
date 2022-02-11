@@ -1,5 +1,10 @@
 #!/bin/sh
 
+set INTIAL=${PWD}
+cd $(dirname $0)
+
 git submodule update --remote
 git commit -am "déploiement (scripts/deploiement)"
 git push
+
+cd ${INTIAL}
