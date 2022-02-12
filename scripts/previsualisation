@@ -27,7 +27,7 @@ then
     fi
 fi
 echo "Copie du repos local..."
-cp -r $GIT_LOCAL ../api > /dev/null
+cp -r $GIT_LOCAL ../api > /dev/null # TODO Tester avec lien symbolique
 if [ ! $? -eq 0 ]
 then
     echo "Erreur : Impossible de copier le repos."
@@ -40,7 +40,7 @@ vercel ../
 echo ""
 echo "Suppression de la copie du repos..."
 rm -rf ../api
-if [ -d .api ]
+if [ -d ../.api ]
 then
     echo "Restauration du module..."
     mv ../.api ../api
