@@ -4,26 +4,27 @@ INITIAL=$PWD
 cd $(dirname $0)
 
 echo "Mise à jour des modules..."
-git submodule update --remote > /dev/null
+git submodule update --remote
 if [ ! $? -eq 0 ]
 then
     echo "La mise à jour des modules a échoué."
     exit
 fi
 echo "Création du commit..."
-git commit -am "déploiement (scripts/deploiement)" > /dev/null
+git commit -am "déploiement (scripts/deploiement)"
 if [ ! $? -eq 0 ]
 then
     echo "La création du commit a échoué."
     exit
 fi
 echo "Publication..."
-git push > /dev/null
+git push
 if [ ! $? -eq 0 ]
 then
     echo "La publication du commit a échoué."
     exit
 fi
-echo "Branche mise à jour."
+echo "Branche de production mise à jour."
+echo "Après compilation, le résultat sera disponible à l'adresse : https://www.resrc.club"
 
 cd $INITIAL

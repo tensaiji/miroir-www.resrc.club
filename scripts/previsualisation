@@ -1,0 +1,43 @@
+#!/bin/sh
+
+if [ -z ${1} ]
+then
+    echo "Usage : previsualisation <dossier git>"
+    exit
+fi
+
+INITIAL=$PWD
+GIT_LOCAL="$INITIAL/$1"
+if [ ! -d $GIT_LOCAL ]
+then
+    echo "Erreur : Le dossier \"$GIT_LOCAL\" n'existe pas."
+    exit
+fi
+
+cd $(dirname $0)
+
+echo "Déplacement du module..."
+mv ../api ../.api > /dev/null
+if [ ! $? -eq 0 ]
+then
+    echo "Erreur : Impossible de déplacer le dossier api."
+    exit
+fi
+echo "Copie du repos local..."
+cp -r $GIT_LOCAL ../api > /dev/null
+if [ ! $? -eq 0 ]
+then
+    echo "Erreur : Impossible de copier le repos."
+    mv ../.api ../api
+    exit
+fi
+echo "Déploiement via vercel..."
+echo ""
+vercel ../
+echo ""
+echo "Suppression de la copie du repos..."
+rm -rf ../api
+echo "Restauration du module..."
+mv ../.api ../api
+
+cd $INTIAL
