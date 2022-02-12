@@ -16,12 +16,15 @@ fi
 
 cd $(dirname $0)
 
-echo "Déplacement du module..."
-mv ../api ../.api > /dev/null
-if [ ! $? -eq 0 ]
+if [ -d ../api ]
 then
-    echo "Erreur : Impossible de déplacer le dossier api."
-    exit
+    echo "Déplacement du module..."
+    mv ../api ../.api > /dev/null
+    if [ ! $? -eq 0 ]
+    then
+        echo "Erreur : Impossible de déplacer le dossier api."
+        exit
+    fi
 fi
 echo "Copie du repos local..."
 cp -r $GIT_LOCAL ../api > /dev/null
@@ -37,7 +40,10 @@ vercel ../
 echo ""
 echo "Suppression de la copie du repos..."
 rm -rf ../api
-echo "Restauration du module..."
-mv ../.api ../api
+if [ -d .api ]
+then
+    echo "Restauration du module..."
+    mv ../.api ../api
+fi
 
 cd $INTIAL
