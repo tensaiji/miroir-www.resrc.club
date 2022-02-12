@@ -1,10 +1,29 @@
 #!/bin/sh
 
-set INTIAL=${PWD}
+INITIAL=$PWD
 cd $(dirname $0)
 
-git submodule update --remote
-git commit -am "déploiement (scripts/deploiement)"
-git push
+echo "Mise à jour des modules..."
+git submodule update --remote > /dev/null
+if [ ! $? -eq 0 ]
+then
+    echo "La mise à jour des modules a échoué."
+    exit
+fi
+echo "Création du commit..."
+git commit -am "déploiement (scripts/deploiement)" > /dev/null
+if [ ! $? -eq 0 ]
+then
+    echo "La création du commit a échoué."
+    exit
+fi
+echo "Publication..."
+git push > /dev/null
+if [ ! $? -eq 0 ]
+then
+    echo "La publication du commit a échoué."
+    exit
+fi
+echo "Branche mise à jour."
 
-cd ${INTIAL}
+cd $INITIAL
